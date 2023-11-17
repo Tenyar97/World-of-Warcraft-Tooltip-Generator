@@ -634,17 +634,16 @@ public class Main {
             }
     }
     
-	private void saveFrameAsImage(JFrame frame, JLabel spellNameLabel, String defaultSavePath) 
-	{
-	    BufferedImage image = captureFrameAsImage(frame);
-	    File fileToSave = promptUserForFileLocation(frame, defaultSavePath);
+    private void saveFrameAsImage(JFrame frame, JLabel spellNameLabel, String defaultSavePath) 
+    {
+        BufferedImage image = captureFrameAsImage(frame);
+        File fileToSave = promptUserForFileLocation(frame, spellNameLabel, defaultSavePath);
 
-	    if (fileToSave != null) 
-	    {
-	        saveImageToFile(frame, image, fileToSave);
-	    }
-	}
-
+        if (fileToSave != null) {
+            saveImageToFile(frame, image, fileToSave);
+        }
+    }
+    
 	private BufferedImage captureFrameAsImage(JFrame frame) 
 	{
 	    Rectangle frameBounds = frame.getBounds();
@@ -658,16 +657,24 @@ public class Main {
 	    return image;
 	}
 
-	private File promptUserForFileLocation(JFrame frame, String defaultSavePath) 
-	{
+	private File promptUserForFileLocation(JFrame frame, JLabel spellNameLabel, String defaultSavePath) {
 	    JFileChooser fileChooser = new JFileChooser();
 	    fileChooser.setDialogTitle("Specify where to save your Tooltip");
-	    setFileChooserDefaultPath(fileChooser, defaultSavePath);
+
+	    // Set the default directory or file
+	    File defaultPath = new File(defaultSavePath);
+	    if (defaultPath.isDirectory()) {
+	        fileChooser.setCurrentDirectory(defaultPath);
+	    } else {
+	        fileChooser.setCurrentDirectory(defaultPath.getParentFile());
+	    }
+
+	    // Set the default file name
+	    String defaultFileName = spellNameLabel.getText() + "_tooltip.png";
+	    fileChooser.setSelectedFile(new File(fileChooser.getCurrentDirectory(), defaultFileName));
 
 	    int userSelection = fileChooser.showSaveDialog(frame);
-	    
-	    if (userSelection == JFileChooser.APPROVE_OPTION) 
-	    {
+	    if (userSelection == JFileChooser.APPROVE_OPTION) {
 	        File selectedFile = fileChooser.getSelectedFile();
 	        return ensurePngExtension(selectedFile);
 	    }
