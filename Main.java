@@ -661,7 +661,6 @@ public class Main {
 	    JFileChooser fileChooser = new JFileChooser();
 	    fileChooser.setDialogTitle("Specify where to save your Tooltip");
 
-	    // Set the default directory or file
 	    File defaultPath = new File(defaultSavePath);
 	    if (defaultPath.isDirectory()) {
 	        fileChooser.setCurrentDirectory(defaultPath);
@@ -669,7 +668,6 @@ public class Main {
 	        fileChooser.setCurrentDirectory(defaultPath.getParentFile());
 	    }
 
-	    // Set the default file name
 	    String defaultFileName = spellNameLabel.getText() + "_tooltip.png";
 	    fileChooser.setSelectedFile(new File(fileChooser.getCurrentDirectory(), defaultFileName));
 
