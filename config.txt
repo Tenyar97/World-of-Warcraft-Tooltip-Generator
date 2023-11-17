@@ -1,3 +1,3 @@
-defaultPath=C:\Users\Brady\Desktop\NewFolder;
+defaultPath=C:\Users\Default\AppData\Roaming\World of Warcraft Tooltip Generator;
 mruLimit=45;
 author=Tenyar97;
