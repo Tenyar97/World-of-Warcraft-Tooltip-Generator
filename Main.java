@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Panel;
 import java.awt.Rectangle;
@@ -64,15 +65,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Window.Type;
 import javax.swing.Box;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.awt.Canvas;
 import java.awt.Button;
 
 public class Main {
 
     private static JFrame mainFrame;
+    private Image icon = new ImageIcon(ICONS_DIRECTORY + "\\WoW_Store.PNG", "Program Icon").getImage();
     private JButton spellIcon = new JButton();
     private static final int ORIG_WIDTH = 450;
     private static final int ORIG_HEIGHT = 156;
@@ -133,11 +132,12 @@ public class Main {
     private static final JCheckBox levelBox = new JCheckBox("Level Requirement");
     private static int secretCounter = 0;
     private String resource = "";
-
+    
     public Main() throws IOException 
     {
         mainFrame = initializeMainFrame();
         ImagePanel panel = initializeImagePanel();
+        mainFrame.setIconImage(icon);
 
         setupSpellIcon(spellIcon, panel);
         setupLabels(panel);
@@ -153,6 +153,7 @@ public class Main {
     private JFrame initializeMainFrame() 
     {
         JFrame frame = new JFrame("Tooltip Generator");
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(ORIG_WIDTH, ORIG_HEIGHT);
         frame.setResizable(false);
@@ -224,6 +225,7 @@ public class Main {
     private void openEditWindow() 
     {
         JFrame editFrame = createEditFrame();
+        editFrame.setIconImage(icon);
         setupMenuBar(editFrame);
         setupTextComponents(editFrame);
         setupRadioButtons(editFrame);
@@ -735,33 +737,13 @@ public class Main {
 	    button.setOpaque(false);
 	    container.add(button);
 
-	    ImageIcon defaultImage = loadDefaultSpellIcon();
+	    ImageIcon defaultImage = new ImageIcon(ICONS_DIRECTORY + "\\INV_Misc_QuestionMark.PNG", "");
 	    
 	    if (defaultImage != null) 
 	    {
 	        button.setIcon(defaultImage);
 	        button.setPreferredSize(new Dimension(defaultImage.getIconWidth(), defaultImage.getIconHeight()));
 	    }
-	}
-
-
-	private ImageIcon loadDefaultSpellIcon() 
-	{
-		String ICONS_DIRECTORY = "Icons";
-	    File[] iconFiles = Optional.ofNullable(new File(ICONS_DIRECTORY).listFiles())
-	                               .orElse(new File[0]);
-
-	    if (iconFiles.length > 0) 
-	    {
-	        try {
-	            return new ImageIcon(ImageIO.read(iconFiles[0]));
-	        } 
-	        catch (IOException e)
-	        {
-	            e.printStackTrace();
-	        }
-	    }
-	    return null;
 	}
     
 	private void openIconSelectionDialog(ActionEvent e) 
